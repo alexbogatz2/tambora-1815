@@ -21,20 +21,22 @@ def _fields(h,w,shore_y):
         phases.append((kx*xx/(.52+.48*d)+ky*perspective+phi).astype(np.float32))
     return y0,xx,yy,fade,depth,phases
 
-def animate_water(image,t,hyperlapse=False,shore_y=.799):
+def animate_water(image,t,hyperlapse=False,shore_y=.799,*,time_scale=None,shutter_seconds=None):
     """Return BGR frame with continuous ocean motion; all rows above shore fixed.
 
     Use global seconds or continuous scene seconds. Hyperlapse averages fast
     wind-wave phases over a virtual shutter analytically to avoid strobing.
+    Explicit time_scale multiplies output time; shutter_seconds is measured
+    in OUTPUT seconds, so speed also scales the physical exposure interval.
     """
     h,w=image.shape[:2]
     if not (0<shore_y<1): raise ValueError('shore_y must be between 0 and 1')
     y0,x,y,fade,depth,phases=_fields(h,w,float(shore_y))
     roi=image[y0:]; dx=np.zeros_like(x); dy=np.zeros_like(x); light=np.zeros_like(x)
     rates=[1.35,2.13,3.05,4.32,.64]
-    speed=3.4 if hyperlapse else 1.
+    speed=float(time_scale) if time_scale is not None else (3.4 if hyperlapse else 1.)
     # Hyperlapse integrates 0.20s virtual shutter, ordinary 1/48s.
-    shutter=.20 if hyperlapse else 1/48
+    shutter=float(shutter_seconds) if shutter_seconds is not None else (.20 if hyperlapse else 1/48)
     for j,(phase,rate) in enumerate(zip(phases,rates)):
         omega=rate*speed
         attenuation=float(np.sinc(omega*shutter/(2*np.pi)))
