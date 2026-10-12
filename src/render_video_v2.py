@@ -32,7 +32,7 @@ PDC=cv2.GaussianBlur(PDC,(0,0),3)
 def advect(src,t,kind='sky',strength=1):
  """Single continuous trajectory for every pixel; never wraps or resets."""
  if kind=='sky':
-  m=SKY;vx=(1.4+.33*N+.2*N2)*m;vy=(-2.7-.38*N2)*m
+  m=SKY*smooth((v.skyline[None,:]-y-90)/110);vx=(1.4+.33*N+.2*N2)*m;vy=(-2.7-.38*N2)*m
  elif kind=='column':
   m=COL;vx=(.60+.2*N)*m;vy=(-2.3-.3*N2)*m
  elif kind=='pdc':

@@ -46,3 +46,17 @@ Using identical downsampled ROIs, median water differences are now0.873 during t
 Short-GOP refresh frames still show modest intensity-difference bumps (for example frame48:1.495 versus neighbors0.967/1.023; frame96:2.530 versus2.101/2.136). They are much smaller than scene cuts or flash effects and do not establish an obvious broken transition. Further codec optimization was not required for this revision.
 
 **Decision:** Proceed to full1080p24 render using the reviewed code. The revision materially corrects frozen water and the broad hyperlapse matte seam. Approval is limited to those corrections and sampled temporal continuity; it does not certify photorealistic fluid dynamics, historical camera geometry, or physically calibrated flow speed. No4K or frame-rate interpolation requested at this stage.
+
+## Final assembled-picture check
+
+Decoded the completed `tambora_picture_v2_1080p.mp4`: metadata1920×1080,24fps,2,880frames. Checked all96frames from53–57s and456frames from87–106s. No exact adjacent duplicates or black frames in those intervals. The55s section join is an intentional viewpoint cut;105s is the intended cut to the aerial aftermath. Sequential samples show no doubled whole-mountain crossfade.
+
+A residual limitation is visible: isolated dark terrain-colored fragments appear above parts of the skyline (left slope near87s and right side near the end of collapse). These may arise from terrain/ash masking or the source image; they should not be described as verified ejecta or as artifact-free. Reported to coordinator rather than silently approving. The major frozen-water and broad source-photo matte defects are corrected, but this remains a2.5D reconstruction with visible limitations.
+
+Evidence: `outputs/qa/final_v2_join_collapse.json`, `outputs/qa/final_collapse_sequence.jpg`, and selected full-resolution frames.
+
+### Skyline defect resolved in corrected encoded master
+
+Animator traced the floating fragments to ash remapping that sampled terrain below an approximate skyline. A conservative zero-velocity buffer above the skyline prevents terrain texels entering the moving ash region. Reviewed corrected direct frames, then independently decoded the patched master and inspected three consecutive frames at86.95s,102s,104.8s. The previously flagged floating fragments are absent. Evidence: `outputs/qa/corrected_skyline_temporal.jpg`.
+
+Repeated the targeted join/collapse decode because those inputs changed:96frames53–57s and456frames87–106s contain no black frames or exact adjacent duplicates. Intended scene cuts remain. Metadata still1920×1080,24fps,2,880frames. **Final decision: approved for mux and delivery within the documented motion/compositing correction scope.** The earlier residual-floating-fragment warning is superseded by this correction; general2.5D physical-realism limitations remain.
