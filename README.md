@@ -8,12 +8,14 @@ Requires Python 3.12+, FFmpeg with libx264 and Flite, and the packages in requir
 
 ```sh
 python -m pip install -r requirements.txt
-python src/render_video.py
+python src/render_video_v2.py
 python src/render_audio.py
-python src/assemble.py
+python src/assemble_v2.py
 ```
 
-The video renderer creates a 1920×1080, 24 fps picture master. Assembly writes an H.264/AAC 1080p MP4 and a Lanczos-upscaled 3840×2160 MP4. Source plates are 1672×941; the 4K file is not native 4K footage. See `docs/scientific_review.md` for source evidence and reconstruction limitations.
+The revised renderer creates a 1920×1080, 24 fps picture master. Assembly writes a 120-second H.264/AAC MP4. Upscaling is paused until this revision is approved. Source landscape plates are 1672×941. Scene assets are supplied separately and are not published in this repository.
+
+Revision 2 adds continuous ocean motion, a true-alpha plume with vent-anchored growth, smoother transitions, and higher-quality encoding. The motion test was independently reviewed using consecutive decoded frames; see `docs/motion_review_v2.md`. See `docs/scientific_review.md` for evidence and reconstruction limitations.
 
 ## Chapters
 
